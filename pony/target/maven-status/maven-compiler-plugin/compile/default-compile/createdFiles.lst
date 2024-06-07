@@ -1,1 +1,6 @@
-ucll\be\Main.class
+ucll\be\service\AnimalService.class
+ucll\be\repository\DbInitializer.class
+ucll\be\controller\AnimalController.class
+ucll\be\repository\AnimalRepository.class
+ucll\be\model\Animal.class
+ucll\be\PonyApplication.class
