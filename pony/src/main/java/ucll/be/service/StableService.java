@@ -1,5 +1,7 @@
 package ucll.be.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import ucll.be.model.Animal;
@@ -30,6 +32,19 @@ public class StableService {
     public Stable assignAnimalToStable(String animalName, Long stableId) {
         Stable stable = getStableById(stableId);
         return assignAnimalToStable(animalName, stable);
+    }
+
+    public Stable getStableByAnimalName(String animalName) {
+        Animal animal = animalService.getAnimalByName(animalName);
+        Stable animStable = animal.getStable();
+        if (animStable == null) {
+            throw new IllegalArgumentException("Animal with name " + animalName + " is not assigned to a stable");
+        }
+        return animStable;
+    }
+
+    public List<Stable> getAllStables() {
+        return stableRepository.findAll();
     }
 
     public Stable getStableById(Long id) {
