@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import ucll.be.model.Animal;
+import ucll.be.model.Stable;
 import ucll.be.service.AnimalService;
+import ucll.be.service.StableService;
 
 
 
@@ -26,14 +29,27 @@ import ucll.be.service.AnimalService;
 public class AnimalController {
     
     private AnimalService service;
+    private StableService stableService;
 
-    public AnimalController(AnimalService service) {
+    public AnimalController(AnimalService service, StableService stableService) {
         this.service = service;
+        this.stableService = stableService;
     }
 
     @PostMapping
     public Animal addAnimal(@RequestBody Animal entity) {
         return service.addAnimal(entity);
+    }
+
+    @PostMapping("/{animalName}/stable")
+    public Stable assignAnimalToStable(@PathVariable(value = "animalName") String animalName, @RequestBody Stable stable) {
+        return stableService.assignAnimalToStable(animalName, stable);
+    }
+    
+    @PostMapping("/{animalName}")
+    public Stable removeAnimalFromStable(@PathVariable(value = "animalName") String animalName,
+    @RequestParam(value = "stableId") Long stableId) {
+        return stableService.assignAnimalToStable(animalName, stableId);
     }
 
     @GetMapping

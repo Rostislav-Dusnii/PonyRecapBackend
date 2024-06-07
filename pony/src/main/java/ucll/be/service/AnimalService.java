@@ -17,7 +17,12 @@ public class AnimalService {
     }
 
     public Animal getAnimalByName(String name) {
-        return animalRepository.findByName(name);
+        Animal animal = animalRepository.findByName(name);
+        if (animal == null) {
+            throw new IllegalArgumentException("Animal with name " + name + " does not exist");
+        }
+
+        return animal;
     }
 
     public Animal addAnimal(Animal entity) {
@@ -38,6 +43,10 @@ public class AnimalService {
     public Animal getOldestAnimal() {
         return animalRepository.findFirstByOrderByAgeDesc();
     }
+
+    public void saveAnimal(Animal animal) {
+        animalRepository.save(animal);
+    }   
 
     public void throwErrorIfExists(String name) {
         if (getAnimalByName(name) != null) {
