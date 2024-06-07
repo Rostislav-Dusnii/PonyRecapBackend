@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.PostConstruct;
+import ucll.be.model.Address;
 import ucll.be.model.Animal;
 import ucll.be.model.Stable;
 
@@ -13,18 +14,23 @@ import ucll.be.model.Stable;
 public class DbInitializer {
     private AnimalRepository animalRepository;
     private StableRepository stableRepository;
+    private AddressRepository addressRepository;
 
-    public DbInitializer(AnimalRepository animalRepository, StableRepository stableRepository) {
+    public DbInitializer(AnimalRepository animalRepository, StableRepository stableRepository, AddressRepository addressRepository) {
         this.animalRepository = animalRepository;
         this.stableRepository = stableRepository;
+        this.addressRepository = addressRepository;
     }
 
     @PostConstruct
     public void populateDB() {
         List<Animal> animals = createAnimals();
-        List<Stable> stables = createStables();
+        List<Address> addresses = createAddresses();
+        List<Stable> stables = createStables(addresses);
         connectStablesAndAnimals(animals, stables);
+        connectStablesAndAddresses(addresses, stables);
 
+        addressRepository.saveAll(addresses);
         stableRepository.saveAll(stables);
         animalRepository.saveAll(animals);
     }
@@ -42,13 +48,35 @@ public class DbInitializer {
         return animals;
     }
 
-    public List<Stable> createStables() {
+    public List<Stable> createStables(List<Address> addresses) {
         List<Stable> stables = new ArrayList<>();
         Stable stable1 = new Stable("StblHn", 5);
         Stable stable2 = new Stable("PonyCo", 3);
+
         stables.add(stable1);
         stables.add(stable2);
         return stables;
+    }
+
+    public List<Address> createAddresses() {
+        List<Address> addresses = new ArrayList<>();
+        Address address1 = new Address("Horsestreet", 1, "Leuven");
+        Address address2 = new Address("Ponyroad", 2, "Leuven");
+        addresses.add(address1);
+        addresses.add(address2);
+        return addresses;
+    }
+
+    public void connectStablesAndAddresses(List<Address> addresses, List<Stable> stables) {
+        Address horseStreet = addresses.stream().filter(address -> address.getStreet().equals("Horsestreet")).findFirst().orElse(null);
+        Address ponyRoad = addresses.stream().filter(address -> address.getStreet().equals("Ponyroad")).findFirst().orElse(null);
+        Stable stable1 = stables.stream().filter(stable -> stable.getName().equals("StblHn")).findFirst().orElse(null);
+        Stable stable2 = stables.stream().filter(stable -> stable.getName().equals("PonyCo")).findFirst().orElse(null);
+        
+        horseStreet.setStable(stable1);
+        ponyRoad.setStable(stable2);
+        stable1.setAddress(horseStreet);
+        stable2.setAddress(ponyRoad);
     }
 
     public void connectStablesAndAnimals(List<Animal> animals, List<Stable> stables) {

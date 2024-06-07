@@ -1,5 +1,7 @@
 package ucll.be.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,7 +28,8 @@ public class Animal {
     private int age;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "stable_id")
+    @JsonBackReference
     private Stable stable;
 
     protected Animal() {

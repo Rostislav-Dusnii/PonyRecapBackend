@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import ucll.be.model.Address;
 import ucll.be.model.Animal;
 import ucll.be.model.Stable;
 import ucll.be.repository.StableRepository;
@@ -12,16 +13,45 @@ import ucll.be.repository.StableRepository;
 public class StableService {
     private StableRepository stableRepository;
     private AnimalService animalService;
+    private AddressService addressService;
 
-    public StableService(StableRepository stableRepository, AnimalService animalService) {
+    public StableService(StableRepository stableRepository, AnimalService animalService, AddressService addressService) {
         this.stableRepository = stableRepository;
         this.animalService = animalService;
+        this.addressService = addressService;
+    }
+
+    public Stable addStable(Stable entity) {
+        String name = entity.getName();
+        // throwErrorIfExists(name);
+
+        // Address address = entity.getAddress();
+        // if (address != null) {
+        //     addressService.addAddress(address);
+        // }
+
+        // stableRepository.save(entity);
+  
+        return stableRepository.findByName(name);
+    }
+
+    public Stable assignStableToAddress(Long stableId, Long addressId) {
+        Stable stable = getStableById(stableId);
+        Address address = addressService.getAddressById(addressId);
+        // stable.setAddress(address);
+        address.setStable(stable);
+
+        addressService.addAddress(address);
+        stableRepository.save(stable);
+
+        return stableRepository.findByName(stable.getName());
+
     }
 
     public Stable assignAnimalToStable(String animalName, Stable stable) {
         Animal animal = animalService.getAnimalByName(animalName);
         animal.setStable(stable);
-        stable.addAnimal(animal);
+        // stable.addAnimal(animal);
 
         stableRepository.save(stable);
         animalService.saveAnimal(animal);
@@ -53,5 +83,11 @@ public class StableService {
             throw new IllegalArgumentException("Stable with id " + id + " does not exist");
         }
         return stable;
+    }
+
+    public void throwErrorIfExists(String name) {
+        if (stableRepository.findByName(name) != null) {
+            throw new IllegalArgumentException("Stable with name " + name + " already exists");
+        }
     }
 }

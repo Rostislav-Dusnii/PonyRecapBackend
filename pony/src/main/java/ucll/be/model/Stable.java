@@ -1,12 +1,19 @@
 package ucll.be.model;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -25,7 +32,14 @@ public class Stable {
     @Positive
     private int maxAnimals;
 
+    @OneToMany(mappedBy = "stable")
+    @JsonManagedReference
     private List<Animal> animals;
+
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "address_id")
+    @JsonManagedReference
+    private Address address;
 
     protected Stable() {
     }
@@ -33,6 +47,7 @@ public class Stable {
     public Stable(String name, int maxAnimals) {
         setName(name);
         setMaxAnimals(maxAnimals);
+        animals = new ArrayList<>();
     }
 
     public Long getId() {
@@ -57,6 +72,25 @@ public class Stable {
 
     public void setMaxAnimals(int maxAnimals) {
         this.maxAnimals = maxAnimals;
+    }
+    
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        if (this.address != null) {
+            throw new IllegalArgumentException("Address is already set for " + name + " stable");
+        }
+        this.address = address;
+    }
+
+    public List<Animal> getAnimals() {
+        return animals;
+    }
+
+    public void setAnimals(List<Animal> animals) {
+        this.animals = animals;
     }
 
     public void addAnimal(Animal animal) {
