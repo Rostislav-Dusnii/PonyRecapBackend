@@ -66,6 +66,11 @@ public class AnimalController {
     public Animal getOldestAnimal() {
         return service.getOldestAnimal();
     }
+
+    @GetMapping("/openmedicalrecords")
+    public List<Animal> getAnimalsWithOpenMedicalRecords() {
+        return service.getAnimalsWithOpenMedicalRecords();
+    }
     
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({Exception.class})

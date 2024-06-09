@@ -1,5 +1,6 @@
 package ucll.be.repository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,18 +9,25 @@ import org.springframework.stereotype.Component;
 import jakarta.annotation.PostConstruct;
 import ucll.be.model.Address;
 import ucll.be.model.Animal;
+import ucll.be.model.MedicalRecord;
 import ucll.be.model.Stable;
+import ucll.be.model.Toy;
+import ucll.be.utilits.TimeTracker;
 
 @Component
 public class DbInitializer {
     private AnimalRepository animalRepository;
     private StableRepository stableRepository;
     private AddressRepository addressRepository;
+    private ToyRepository toyRepository;
+    private MedicalRecordsRepository medicalRecordsRepository;
 
-    public DbInitializer(AnimalRepository animalRepository, StableRepository stableRepository, AddressRepository addressRepository) {
+    public DbInitializer(AnimalRepository animalRepository, StableRepository stableRepository, AddressRepository addressRepository, ToyRepository toyRepository, MedicalRecordsRepository medicalRecordsRepository) {
         this.animalRepository = animalRepository;
         this.stableRepository = stableRepository;
         this.addressRepository = addressRepository;
+        this.toyRepository = toyRepository;
+        this.medicalRecordsRepository = medicalRecordsRepository;
     }
 
     @PostConstruct
@@ -27,12 +35,17 @@ public class DbInitializer {
         List<Animal> animals = createAnimals();
         List<Address> addresses = createAddresses();
         List<Stable> stables = createStables(addresses);
+        List<MedicalRecord> medicalRecords = createMedicalRecords(animals);
+        List<Toy> toys = createToys();
         connectStablesAndAnimals(animals, stables);
+        connectToysAndAnimals(toys, animals);
 
         addresses = addressRepository.saveAll(addresses);
         connectStablesAndAddresses(addresses, stables);
         stableRepository.saveAll(stables);
         animalRepository.saveAll(animals);
+        medicalRecordsRepository.saveAll(medicalRecords);
+        toyRepository.saveAll(toys);
     }
 
     public List<Animal> createAnimals() {
@@ -67,6 +80,32 @@ public class DbInitializer {
         return addresses;
     }
 
+    public List<Toy> createToys() {
+        List<Toy> toys = new ArrayList<>();
+        Toy toy1 = new Toy("Ball");
+        Toy toy2 = new Toy("Rope");
+        Toy toy3 = new Toy("Carrot");
+        toys.add(toy1);
+        toys.add(toy2);
+        toys.add(toy3);
+        return toys;
+    }
+
+    public List<MedicalRecord> createMedicalRecords(List<Animal> animals) {
+        Animal animalBella = animals.stream().filter(animal -> animal.getName().equals("Bella")).findFirst().orElse(null);
+        Animal animalLuna = animals.stream().filter(animal -> animal.getName().equals("Luna")).findFirst().orElse(null);
+
+        LocalDate today = TimeTracker.getToday();
+
+        List<MedicalRecord> medicalRecords = new ArrayList<>();
+        MedicalRecord medicalRecord1 = new MedicalRecord(today.minusDays(1), "Bella has a cold", animalBella);
+        MedicalRecord medicalRecord2 = new MedicalRecord(today.minusDays(2), "Luna has a broken leg", animalLuna);
+        medicalRecords.add(medicalRecord1);
+        medicalRecords.add(medicalRecord2);
+        
+        return medicalRecords;
+    }
+
     public void connectStablesAndAddresses(List<Address> addresses, List<Stable> stables) {
         Address horseStreet = addresses.stream().filter(address -> address.getStreet().equals("Horsestreet")).findFirst().orElse(null);
         Address ponyRoad = addresses.stream().filter(address -> address.getStreet().equals("Ponyroad")).findFirst().orElse(null);
@@ -95,5 +134,24 @@ public class DbInitializer {
         stblHn.addAnimal(luna);
         muriel.setStable(ponyCo);
         ponyCo.addAnimal(muriel);
+    }
+
+    public void connectToysAndAnimals(List<Toy> toys, List<Animal> animals) {
+        // Animal Bella has a ball and a rope
+        // Animal Little has a carrot
+        String bellaName = "Bella";
+        String littleName = "Little";
+        String ballName = "Ball";
+        String ropeName = "Rope";
+        String carrotName = "Carrot";
+        Animal bella = animals.stream().filter(animal -> animal.getName().equals(bellaName)).findFirst().orElse(null);
+        Animal little = animals.stream().filter(animal -> animal.getName().equals(littleName)).findFirst().orElse(null);
+        Toy ball = toys.stream().filter(toy -> toy.getName().equals(ballName)).findFirst().orElse(null);
+        Toy rope = toys.stream().filter(toy -> toy.getName().equals(ropeName)).findFirst().orElse(null);
+        Toy carrot = toys.stream().filter(toy -> toy.getName().equals(carrotName)).findFirst().orElse(null);
+        
+        ball.addAnimal(bella);
+        rope.addAnimal(bella);
+        carrot.addAnimal(little);
     }
 }

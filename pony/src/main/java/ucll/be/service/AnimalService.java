@@ -15,7 +15,7 @@ public class AnimalService {
     public AnimalService(AnimalRepository animalRepository) {
         this.animalRepository = animalRepository;
     }
-
+    
     public Animal getAnimalByName(String name) {
         Animal animal = animalRepository.findByNameIgnoreCase(name);
         if (animal == null) {
@@ -23,6 +23,19 @@ public class AnimalService {
         }
 
         return animal;
+    }
+
+    public Animal getAnimalById(Long id) {
+        Animal animal = animalRepository.findById(id).orElse(null);
+        if (animal == null) {
+            throw new IllegalArgumentException("Animal with id " + id + " does not exist");
+        }
+
+        return animal;
+    }
+
+    public List<Animal> getAnimalsWithOpenMedicalRecords() {
+        return animalRepository.findAnimalsWithOpenMedicalRecords();
     }
 
     public Animal addAnimal(Animal entity) {
