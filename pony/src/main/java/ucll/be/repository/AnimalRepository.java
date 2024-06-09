@@ -11,7 +11,7 @@ import ucll.be.model.Animal;
 public interface AnimalRepository extends JpaRepository<Animal, Long> {
     // You can add custom query methods here if needed
 
-    Animal findByName(String name);
+    Animal findByNameIgnoreCase(String name);
     List<Animal> findByAgeGreaterThan(int age);
     Animal findFirstByOrderByAgeDesc();
 }

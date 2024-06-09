@@ -25,15 +25,11 @@ public class StableService {
         String name = entity.getName();
         throwErrorIfExists(name);
 
-        Stable savedStable = stableRepository.save(entity);
-
         Address address = entity.getAddress();
         if (address != null) {
-            address.setStable(savedStable);
             addressService.addAddress(address);
         }
-  
-        return stableRepository.findByName(name);
+        return stableRepository.save(entity);
     }
 
     public Stable assignStableToAddress(Long stableId, Long addressId) {
@@ -41,12 +37,8 @@ public class StableService {
         Address address = addressService.getAddressById(addressId);
         
         stable.setAddress(address);
-        Stable stableWithId = stableRepository.save(stable);
-        
-        address.setStable(stableWithId);
-        addressService.addAddress(address);
 
-        return stableRepository.findByName(stable.getName());
+        return stableRepository.save(stable);
     }
 
     public Stable assignAnimalToStable(String animalName, Stable stable) {

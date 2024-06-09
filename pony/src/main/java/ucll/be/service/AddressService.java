@@ -1,5 +1,7 @@
 package ucll.be.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import ucll.be.model.Address;
@@ -28,7 +30,7 @@ public class AddressService {
         return address;
     }
 
-    public Address getAddressWithNumberOfAnimalsGreater(int numberOfAnimals) {
+    public List<Address> getAddressWithNumberOfAnimalsGreater(int numberOfAnimals) {
         return addressRepository.findByNumberOfAnimalsGreaterThan(numberOfAnimals);
     }
 

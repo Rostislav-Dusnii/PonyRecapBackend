@@ -4,6 +4,7 @@ package ucll.be.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
@@ -34,7 +35,10 @@ public class Stable {
     @JsonManagedReference
     private List<Animal> animals;
 
+    private Long addressId;
+
     @Transient
+    @JsonIgnore
     private Address address;
 
     protected Stable() {
@@ -79,6 +83,15 @@ public class Stable {
             throw new IllegalArgumentException("Address is already set for " + name + " stable");
         }
         this.address = address;
+        setAddressId(address.getId());
+    }
+
+    public Long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
     }
 
     public List<Animal> getAnimals() {

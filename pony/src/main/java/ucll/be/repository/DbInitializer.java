@@ -28,10 +28,10 @@ public class DbInitializer {
         List<Address> addresses = createAddresses();
         List<Stable> stables = createStables(addresses);
         connectStablesAndAnimals(animals, stables);
-        connectStablesAndAddresses(addresses, stables);
 
+        addresses = addressRepository.saveAll(addresses);
+        connectStablesAndAddresses(addresses, stables);
         stableRepository.saveAll(stables);
-        addressRepository.saveAll(addresses);
         animalRepository.saveAll(animals);
     }
 
@@ -73,8 +73,8 @@ public class DbInitializer {
         Stable stable1 = stables.stream().filter(stable -> stable.getName().equals("StblHn")).findFirst().orElse(null);
         Stable stable2 = stables.stream().filter(stable -> stable.getName().equals("PonyCo")).findFirst().orElse(null);
         
-        horseStreet.setStable(stable1);
-        ponyRoad.setStable(stable2);
+        // horseStreet.setStable(stable1);
+        // ponyRoad.setStable(stable2);
         stable1.setAddress(horseStreet);
         stable2.setAddress(ponyRoad);
     }

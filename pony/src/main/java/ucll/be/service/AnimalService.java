@@ -17,7 +17,7 @@ public class AnimalService {
     }
 
     public Animal getAnimalByName(String name) {
-        Animal animal = animalRepository.findByName(name);
+        Animal animal = animalRepository.findByNameIgnoreCase(name);
         if (animal == null) {
             throw new IllegalArgumentException("Animal with name " + name + " does not exist");
         }
@@ -29,7 +29,7 @@ public class AnimalService {
         String name = entity.getName();
         throwErrorIfExists(name);
         animalRepository.save(entity);
-        return animalRepository.findByName(name);
+        return animalRepository.findByNameIgnoreCase(name);
     }
 
     public List<Animal> getAllAnimals() {

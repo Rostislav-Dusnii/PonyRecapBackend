@@ -1,5 +1,6 @@
 package ucll.be.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -7,16 +8,19 @@ import jakarta.validation.constraints.Positive;
 @Embeddable
 public class Address {
 
+    private Long Id;
+
+    @Column(name = "address_street")
     @NotBlank(message = "Street cannot be blank")
     private String street;
 
+    @Column(name = "address_house_number")
     @Positive(message = "Number must be a positive number")
     private int number;
 
     @NotBlank(message = "Place cannot be blank")
+    @Column(name = "address_place")
     private String place;
-
-    private Stable stable;
 
     protected Address() {
         // Empty constructor for JPA
@@ -26,6 +30,14 @@ public class Address {
         setStreet(street);
         setNumber(number);
         setPlace(place);
+    }
+
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
     }
 
     public String getStreet() {
@@ -50,16 +62,5 @@ public class Address {
 
     public void setPlace(String place) {
         this.place = place;
-    }
-
-    public Stable getStable() {
-        return stable;
-    }
-
-    public void setStable(Stable stable) {
-        if (this.stable != null && this.stable.getId() != null) {
-            throw new IllegalArgumentException("Address is already assigned to a stable");
-        }
-        this.stable = stable;
     }
 }
