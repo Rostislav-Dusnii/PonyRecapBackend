@@ -18,11 +18,11 @@ public class ToyService {
     }
 
     public Toy getToyById(Long id) {
-        return toyRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Toy with id " + id + " does not exist"));
+        return toyRepository.findById(id).orElseThrow(() -> new ServiceException("Toy with id " + id + " does not exist"));
     }
 
     public Toy getToyByName(String name) {
-        return toyRepository.findByNameIgnoreCase(name).orElseThrow(() -> new IllegalArgumentException("Toy with name " + name + " does not exist"));
+        return toyRepository.findByNameIgnoreCase(name).orElseThrow(() -> new ServiceException("Toy with name " + name + " does not exist"));
     }
 
     public Toy addToy(Toy toy) {
@@ -40,7 +40,7 @@ public class ToyService {
 
     public void throwErrorIfExists(Toy toy) {
         if (toyRepository.existsByNameIgnoreCase(toy.getName())) {
-            throw new IllegalArgumentException("Toy already exists");
+            throw new ServiceException("Toy already exists");
         }
     }
 }

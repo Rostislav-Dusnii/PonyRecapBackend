@@ -61,7 +61,7 @@ public class StableService {
         Animal animal = animalService.getAnimalByName(animalName);
         Stable animStable = animal.getStable();
         if (animStable == null) {
-            throw new IllegalArgumentException("Animal with name " + animalName + " is not assigned to a stable");
+            throw new ServiceException("Animal with name " + animalName + " is not assigned to a stable");
         }
         return animStable;
     }
@@ -73,14 +73,14 @@ public class StableService {
     public Stable getStableById(Long id) {
         Stable stable = stableRepository.findById(id).orElse(null);
         if (stable == null) {
-            throw new IllegalArgumentException("Stable with id " + id + " does not exist");
+            throw new ServiceException("Stable with id " + id + " does not exist");
         }
         return stable;
     }
 
     public void throwErrorIfExists(String name) {
         if (stableRepository.findByName(name) != null) {
-            throw new IllegalArgumentException("Stable with name " + name + " already exists");
+            throw new ServiceException("Stable with name " + name + " already exists");
         }
     }
 }

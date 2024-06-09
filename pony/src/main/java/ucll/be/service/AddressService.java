@@ -24,7 +24,7 @@ public class AddressService {
     public Address getAddressById(Long id) {
         Address address = addressRepository.findById(id);
         if (address == null) {
-            throw new IllegalArgumentException("Address with id " + id + " does not exist");
+            throw new ServiceException("Address with id " + id + " does not exist");
         }
 
         return address;
@@ -36,7 +36,7 @@ public class AddressService {
 
     public void throwErrorIfExists(String street, int number, String place) {
         if (addressRepository.findByStreetAndNumberAndPlace(street, number, place) != null) {
-            throw new IllegalArgumentException("Address with street " + street + " and number " + number + " and place " + place + " already exists");
+            throw new ServiceException("Address with street " + street + " and number " + number + " and place " + place + " already exists");
         }
     }
 }

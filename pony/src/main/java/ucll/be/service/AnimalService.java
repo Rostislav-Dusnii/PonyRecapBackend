@@ -19,7 +19,7 @@ public class AnimalService {
     public Animal getAnimalByName(String name) {
         Animal animal = animalRepository.findByNameIgnoreCase(name);
         if (animal == null) {
-            throw new IllegalArgumentException("Animal with name " + name + " does not exist");
+            throw new ServiceException("Animal with name " + name + " does not exist");
         }
 
         return animal;
@@ -28,7 +28,7 @@ public class AnimalService {
     public Animal getAnimalById(Long id) {
         Animal animal = animalRepository.findById(id).orElse(null);
         if (animal == null) {
-            throw new IllegalArgumentException("Animal with id " + id + " does not exist");
+            throw new ServiceException("Animal with id " + id + " does not exist");
         }
 
         return animal;
@@ -63,7 +63,7 @@ public class AnimalService {
 
     public void throwErrorIfExists(String name) {
         if (getAnimalByName(name) != null) {
-            throw new IllegalArgumentException("Animal with name " + name + " already exists");
+            throw new ServiceException("Animal with name " + name + " already exists");
         }
     }
 }

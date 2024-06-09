@@ -19,7 +19,7 @@ public class MedicalRecordService {
     }
 
     public MedicalRecord getMedicalRecordById(Long id) {
-        return medicalRecordsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("MedicalRecord with id " + id + " does not exist"));
+        return medicalRecordsRepository.findById(id).orElseThrow(() -> new ServiceException("MedicalRecord with id " + id + " does not exist"));
     }
 
     // public MedicalRecord createAndAddMedicalRecord(LocalDate registrationDate, String description, Long animalId) {
@@ -46,7 +46,7 @@ public class MedicalRecordService {
 
     public void throwErrorIfExists(MedicalRecord medicalRecord) {
         if (medicalRecordsRepository.existsByRegistrationDateAndDescriptionAndAnimalId(medicalRecord.getRegistrationDate(), medicalRecord.getDescription(), medicalRecord.getAnimal().getId())) {
-            throw new IllegalArgumentException("Meidcal record with registration date " + medicalRecord.getRegistrationDate() + " and description " + medicalRecord.getDescription() + " already exists");
+            throw new ServiceException("Meidcal record with registration date " + medicalRecord.getRegistrationDate() + " and description " + medicalRecord.getDescription() + " already exists");
         }
     }
 

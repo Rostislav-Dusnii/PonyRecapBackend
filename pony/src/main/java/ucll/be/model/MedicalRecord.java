@@ -57,7 +57,7 @@ public class MedicalRecord {
 
     public void setRegistrationDate(LocalDate registrationDate) {
         if (registrationDate.isAfter(TimeTracker.getToday())) {
-            throw new IllegalArgumentException("Registration date cannot be in the future");
+            throw new DomainException("Registration date cannot be in the future");
         }
         this.registrationDate = registrationDate;
     }
@@ -68,7 +68,7 @@ public class MedicalRecord {
 
     public void setClosingDate(LocalDate closingDate) {
         if (closingDate.isBefore(registrationDate.plusDays(1))) {
-            throw new IllegalArgumentException("Closing date must be at least 1 day after registration date");
+            throw new DomainException("Closing date must be at least 1 day after registration date");
         }
         this.closingDate = closingDate;
     }
@@ -87,7 +87,7 @@ public class MedicalRecord {
 
     public void setAnimal(Animal animal) {
         if (this.animal != null) {
-            throw new IllegalArgumentException("Medical record is already assigned to an animal");
+            throw new DomainException("Medical record is already assigned to an animal");
         }
         this.animal = animal;
     }

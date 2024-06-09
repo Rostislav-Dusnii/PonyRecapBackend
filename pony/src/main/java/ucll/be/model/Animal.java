@@ -72,7 +72,7 @@ public class Animal {
 
     public void setStable(Stable stable) {
         if (this.stable != null) {
-            throw new IllegalArgumentException("Animal " + name + " is already assigned to a stable");
+            throw new DomainException("Animal " + name + " is already assigned to a stable");
         }
         this.stable = stable;
     }

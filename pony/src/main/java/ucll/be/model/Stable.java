@@ -21,14 +21,15 @@ import jakarta.validation.constraints.Positive;
 @Table(name = "MY_STABLES")
 public class Stable {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Name is mandatory")
     private String name;
 
-    @Positive
+    @Positive(message = "Max animals must be positive")
     private int maxAnimals;
 
     @OneToMany(mappedBy = "stable")
@@ -80,7 +81,7 @@ public class Stable {
 
     public void setAddress(Address address) {
         if (this.address != null) {
-            throw new IllegalArgumentException("Address is already set for " + name + " stable");
+            throw new DomainException("Address is already set for " + name + " stable");
         }
         this.address = address;
         setAddressId(address.getId());
@@ -103,8 +104,11 @@ public class Stable {
     }
 
     public void addAnimal(Animal animal) {
+        if (animals.contains(animal)) {
+            throw new DomainException("Animal " + animal.getName() + " is already in stable " + name);
+        }
         if (animals.size() >= maxAnimals) {
-            throw new IllegalArgumentException("Stable with name " + name + " is full.");
+            throw new DomainException("Stable with name " + name + " is full.");
         }
         animals.add(animal);
     }
