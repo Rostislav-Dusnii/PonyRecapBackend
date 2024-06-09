@@ -18,7 +18,7 @@ public class AddressRepository {
     }
 
     public Address save(Address address) {
-        String sql = "INSERT INTO ADDRESSES (street, house_number, place) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO ADDRESSES (street, house_number, place, stable_id) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql, address.getStreet(), address.getNumber(), address.getPlace());
         return address;
     }

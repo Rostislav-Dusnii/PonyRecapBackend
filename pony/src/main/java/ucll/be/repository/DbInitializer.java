@@ -30,8 +30,8 @@ public class DbInitializer {
         connectStablesAndAnimals(animals, stables);
         connectStablesAndAddresses(addresses, stables);
 
-        addressRepository.saveAll(addresses);
         stableRepository.saveAll(stables);
+        addressRepository.saveAll(addresses);
         animalRepository.saveAll(animals);
     }
 

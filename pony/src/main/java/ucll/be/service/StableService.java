@@ -23,14 +23,15 @@ public class StableService {
 
     public Stable addStable(Stable entity) {
         String name = entity.getName();
-        // throwErrorIfExists(name);
+        throwErrorIfExists(name);
 
-        // Address address = entity.getAddress();
-        // if (address != null) {
-        //     addressService.addAddress(address);
-        // }
+        Stable savedStable = stableRepository.save(entity);
 
-        // stableRepository.save(entity);
+        Address address = entity.getAddress();
+        if (address != null) {
+            address.setStable(savedStable);
+            addressService.addAddress(address);
+        }
   
         return stableRepository.findByName(name);
     }
@@ -38,20 +39,20 @@ public class StableService {
     public Stable assignStableToAddress(Long stableId, Long addressId) {
         Stable stable = getStableById(stableId);
         Address address = addressService.getAddressById(addressId);
-        // stable.setAddress(address);
-        address.setStable(stable);
-
+        
+        stable.setAddress(address);
+        Stable stableWithId = stableRepository.save(stable);
+        
+        address.setStable(stableWithId);
         addressService.addAddress(address);
-        stableRepository.save(stable);
 
         return stableRepository.findByName(stable.getName());
-
     }
 
     public Stable assignAnimalToStable(String animalName, Stable stable) {
         Animal animal = animalService.getAnimalByName(animalName);
         animal.setStable(stable);
-        // stable.addAnimal(animal);
+        stable.addAnimal(animal);
 
         stableRepository.save(stable);
         animalService.saveAnimal(animal);

@@ -1,37 +1,21 @@
 package ucll.be.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
-@Entity
-@Table(name = "ADDRESSES")
+@Embeddable
 public class Address {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @NotBlank(message = "Street cannot be blank")
     private String street;
 
     @Positive(message = "Number must be a positive number")
-    @Column(name = "house_number")
     private int number;
 
     @NotBlank(message = "Place cannot be blank")
     private String place;
 
-    @OneToOne(mappedBy = "address")
-    @JsonBackReference
     private Stable stable;
 
     protected Address() {
@@ -73,7 +57,7 @@ public class Address {
     }
 
     public void setStable(Stable stable) {
-        if (this.stable != null) {
+        if (this.stable != null && this.stable.getId() != null) {
             throw new IllegalArgumentException("Address is already assigned to a stable");
         }
         this.stable = stable;
