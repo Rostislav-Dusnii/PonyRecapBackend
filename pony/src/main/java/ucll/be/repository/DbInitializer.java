@@ -48,7 +48,7 @@ public class DbInitializer {
         toyRepository.saveAll(toys);
     }
 
-    public List<Animal> createAnimals() {
+    public static List<Animal> createAnimals() {
         List<Animal> animals = new ArrayList<>();
         Animal animal1 = new Animal("Bella", 20);
         Animal animal2 = new Animal("Luna", 10);
@@ -61,7 +61,7 @@ public class DbInitializer {
         return animals;
     }
 
-    public List<Stable> createStables(List<Address> addresses) {
+    public static List<Stable> createStables(List<Address> addresses) {
         List<Stable> stables = new ArrayList<>();
         Stable stable1 = new Stable("StblHn", 5);
         Stable stable2 = new Stable("PonyCo", 3);
@@ -71,7 +71,7 @@ public class DbInitializer {
         return stables;
     }
 
-    public List<Address> createAddresses() {
+    public static List<Address> createAddresses() {
         List<Address> addresses = new ArrayList<>();
         Address address1 = new Address("Horsestreet", 1, "Leuven");
         Address address2 = new Address("Ponyroad", 2, "Leuven");
@@ -80,7 +80,7 @@ public class DbInitializer {
         return addresses;
     }
 
-    public List<Toy> createToys() {
+    public static List<Toy> createToys() {
         List<Toy> toys = new ArrayList<>();
         Toy toy1 = new Toy("Ball");
         Toy toy2 = new Toy("Rope");
@@ -91,7 +91,7 @@ public class DbInitializer {
         return toys;
     }
 
-    public List<MedicalRecord> createMedicalRecords(List<Animal> animals) {
+    public static List<MedicalRecord> createMedicalRecords(List<Animal> animals) {
         Animal animalBella = animals.stream().filter(animal -> animal.getName().equals("Bella")).findFirst().orElse(null);
         Animal animalLuna = animals.stream().filter(animal -> animal.getName().equals("Luna")).findFirst().orElse(null);
 
@@ -106,7 +106,7 @@ public class DbInitializer {
         return medicalRecords;
     }
 
-    public void connectStablesAndAddresses(List<Address> addresses, List<Stable> stables) {
+    public static void connectStablesAndAddresses(List<Address> addresses, List<Stable> stables) {
         Address horseStreet = addresses.stream().filter(address -> address.getStreet().equals("Horsestreet")).findFirst().orElse(null);
         Address ponyRoad = addresses.stream().filter(address -> address.getStreet().equals("Ponyroad")).findFirst().orElse(null);
         Stable stable1 = stables.stream().filter(stable -> stable.getName().equals("StblHn")).findFirst().orElse(null);
@@ -118,7 +118,7 @@ public class DbInitializer {
         stable2.setAddress(ponyRoad);
     }
 
-    public void connectStablesAndAnimals(List<Animal> animals, List<Stable> stables) {
+    public static void connectStablesAndAnimals(List<Animal> animals, List<Stable> stables) {
         // Animal Luna is assigned to a new stable “StblHn” with place for 5 animals
         // Animal Muriel is assigned to a new stable “PonyCo” with place for 3 animals
         String murielName = "Muriel";
@@ -136,7 +136,7 @@ public class DbInitializer {
         ponyCo.addAnimal(muriel);
     }
 
-    public void connectToysAndAnimals(List<Toy> toys, List<Animal> animals) {
+    public static void connectToysAndAnimals(List<Toy> toys, List<Animal> animals) {
         // Animal Bella has a ball and a rope
         // Animal Little has a carrot
         String bellaName = "Bella";

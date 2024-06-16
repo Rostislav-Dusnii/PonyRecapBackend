@@ -1,11 +1,9 @@
 package ucll.be.model;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
-@Embeddable
 public class Address {
 
     private Long Id;
@@ -21,10 +19,6 @@ public class Address {
     @NotBlank(message = "Place cannot be blank")
     @Column(name = "address_place")
     private String place;
-
-    protected Address() {
-        // Empty constructor for JPA
-    }
 
     public Address(String street, int number, String place) {
         setStreet(street);
