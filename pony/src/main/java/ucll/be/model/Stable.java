@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,7 +33,7 @@ public class Stable {
     @Positive(message = "Max animals must be positive")
     private int maxAnimals;
 
-    @OneToMany(mappedBy = "stable")
+    @OneToMany(mappedBy = "stable", fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Animal> animals;
 

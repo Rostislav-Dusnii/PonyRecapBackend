@@ -42,5 +42,5 @@ public class ToyService {
         if (toyRepository.existsByNameIgnoreCase(toy.getName())) {
             throw new ServiceException("Toy already exists");
         }
-    }
+    }   
 }

@@ -56,4 +56,9 @@ public class AddressRepository {
         return jdbcTemplate.query(sql, new AddressRowMapper(), numberOfAnimals);
     }
 
+    public List<Address> findAll() {
+        String sql = "SELECT * FROM ADDRESSES";
+        return jdbcTemplate.query(sql, new AddressRowMapper());
+    }
+
 }

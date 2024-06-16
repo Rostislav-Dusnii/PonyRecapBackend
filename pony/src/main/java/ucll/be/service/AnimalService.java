@@ -61,7 +61,7 @@ public class AnimalService {
     }   
 
     public void throwErrorIfExists(String name) {
-        if (getAnimalByName(name) != null) {
+        if (animalRepository.findByNameIgnoreCase(name) != null) {
             throw new ServiceException("Animal with name " + name + " already exists");
         }
     }

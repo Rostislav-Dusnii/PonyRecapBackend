@@ -25,9 +25,10 @@ public class StableService {
         String name = entity.getName();
         throwErrorIfExists(name);
 
-        Address address = entity.getAddress();
-        if (address != null) {
-            addressService.addAddress(address);
+        Long addressId = entity.getAddressId();
+        if (addressId != null) {
+            Address address = addressService.getAddressById(addressId);
+            entity.setAddress(address);
         }
         return stableRepository.save(entity);
     }

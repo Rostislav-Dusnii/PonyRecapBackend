@@ -34,6 +34,12 @@ public class AddressService {
         return addressRepository.findByNumberOfAnimalsGreaterThan(numberOfAnimals);
     }
 
+    public void throwIfDoesNotExist(Long id) {
+        if (addressRepository.findById(id) == null) {
+            throw new ServiceException("Address with id " + id + " does not exist");
+        }
+    }
+
     public void throwErrorIfExists(String street, int number, String place) {
         if (addressRepository.findByStreetAndNumberAndPlace(street, number, place) != null) {
             throw new ServiceException("Address with street " + street + " and number " + number + " and place " + place + " already exists");

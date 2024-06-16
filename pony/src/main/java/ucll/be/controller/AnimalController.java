@@ -42,12 +42,12 @@ public class AnimalController {
     }
 
     @PostMapping("/{animalName}/stable")
-    public Stable assignAnimalToStable(@PathVariable(value = "animalName") String animalName, @RequestBody Stable stable) {
+    public Stable assignAnimalToNewStable(@PathVariable(value = "animalName") String animalName, @RequestBody Stable stable) {
         return stableService.assignAnimalToStable(animalName, stable);
     }
     
     @PostMapping("/{animalName}")
-    public Stable removeAnimalFromStable(@PathVariable(value = "animalName") String animalName,
+    public Stable assignAnimalToStable(@PathVariable(value = "animalName") String animalName,
     @RequestParam(value = "stableId") Long stableId) {
         return stableService.assignAnimalToStable(animalName, stableId);
     }
