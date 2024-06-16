@@ -133,7 +133,7 @@ public class MedicalRecordTest {
     }
 
     @Test
-    public void givenMedicalRecordWithAnimal_whenAddingAnimalToMedicalRecord_thenDomainExceptionIsThrown() {
+    public void givenMedicalRecordWithAnimal_whenAddingAnimalToMedicalRecord_thenAnimalUpdated() {
         // Given
         TimeTracker.setCustomToday(DEFAULT_TODAY);
         LocalDate registrationDate = DEFAULT_TODAY;
@@ -143,14 +143,10 @@ public class MedicalRecordTest {
         Animal newAnimal = AnimalTest.createDefaultAnimal();
 
         // When
-        Exception exception = Assertions.assertThrows(
-            DomainException.class, () -> medicalRecord.setAnimal(newAnimal)
-        );
+        medicalRecord.setAnimal(newAnimal);
 
         // Then
-        String expectedMessage = "Medical record is already assigned to an animal";
-        String actualMessage = exception.getMessage();
-        Assertions.assertTrue(actualMessage.contains(expectedMessage));
+        Assertions.assertEquals(newAnimal, medicalRecord.getAnimal());
     }
 
     public static MedicalRecord createDefaultMedicalRecord() {

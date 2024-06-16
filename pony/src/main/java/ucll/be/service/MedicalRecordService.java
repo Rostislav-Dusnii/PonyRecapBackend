@@ -1,9 +1,11 @@
 package ucll.be.service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import ucll.be.model.Animal;
 import ucll.be.model.MedicalRecord;
 import ucll.be.repository.MedicalRecordsRepository;
 
@@ -22,15 +24,10 @@ public class MedicalRecordService {
         return medicalRecordsRepository.findById(id).orElseThrow(() -> new ServiceException("MedicalRecord with id " + id + " does not exist"));
     }
 
-    // public MedicalRecord createAndAddMedicalRecord(LocalDate registrationDate, String description, Long animalId) {
-    //     Animal animal = animalService.getAnimalById(animalId);
-
-    //     MedicalRecord medicalRecord = new MedicalRecord(registrationDate, description, animal);
-    //     return addMedicalRecord(medicalRecord);
-    // }
-
     public MedicalRecord addMedicalRecord(MedicalRecord medicalRecord) {
-        throwErrorIfExists(medicalRecord);
+        Animal animal = animalService.getAnimalById(medicalRecord.getAnimal().getId());
+        medicalRecord.setAnimal(animal);
+        
         return medicalRecordsRepository.save(medicalRecord);
     }
 
@@ -40,14 +37,7 @@ public class MedicalRecordService {
         return medicalRecordsRepository.save(medicalRecord);
     }
 
-    public MedicalRecord getByAnimalIdAndAfterDate(Long animalId, LocalDate registerDate) {
+    public List<MedicalRecord> getByAnimalIdAndAfterDate(Long animalId, LocalDate registerDate) {
         return medicalRecordsRepository.findByAnimalIdAndRegistrationDateAfter(animalId, registerDate);
     }
-
-    public void throwErrorIfExists(MedicalRecord medicalRecord) {
-        if (medicalRecordsRepository.existsByRegistrationDateAndDescriptionAndAnimalId(medicalRecord.getRegistrationDate(), medicalRecord.getDescription(), medicalRecord.getAnimal().getId())) {
-            throw new ServiceException("Meidcal record with registration date " + medicalRecord.getRegistrationDate() + " and description " + medicalRecord.getDescription() + " already exists");
-        }
-    }
-
 }

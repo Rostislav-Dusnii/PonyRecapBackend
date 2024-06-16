@@ -2,6 +2,7 @@ package ucll.be.controller;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -33,7 +34,7 @@ public class MedicalRecordController {
     }
 
     @GetMapping("{animalId}/{registerDate}")
-    public MedicalRecord getByAnimalIdAndAfterDate(@PathVariable Long animalId, @PathVariable LocalDate registerDate) {
+    public List<MedicalRecord> getByAnimalIdAndAfterDate(@PathVariable Long animalId, @PathVariable LocalDate registerDate) {
         return medicalRecordService.getByAnimalIdAndAfterDate(animalId, registerDate);
     }
 

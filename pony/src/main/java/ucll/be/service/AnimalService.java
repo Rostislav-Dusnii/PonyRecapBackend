@@ -41,8 +41,7 @@ public class AnimalService {
     public Animal addAnimal(Animal entity) {
         String name = entity.getName();
         throwErrorIfExists(name);
-        animalRepository.save(entity);
-        return animalRepository.findByNameIgnoreCase(name);
+        return animalRepository.save(entity);
     }
 
     public List<Animal> getAllAnimals() {
@@ -64,6 +63,14 @@ public class AnimalService {
     public void throwErrorIfExists(String name) {
         if (getAnimalByName(name) != null) {
             throw new ServiceException("Animal with name " + name + " already exists");
+        }
+    }
+
+    public void throwErrorIfNotExists(Animal animal) {
+        Long id = animal.getId();
+
+        if (!animalRepository.existsById(id)) {
+            throw new ServiceException("Animal with id " + id + " does not exist");
         }
     }
 }

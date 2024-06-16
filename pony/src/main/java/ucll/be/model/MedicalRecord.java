@@ -67,7 +67,7 @@ public class MedicalRecord {
     }
 
     public void setClosingDate(LocalDate closingDate) {
-        if (closingDate.isBefore(registrationDate.plusDays(1))) {
+        if (closingDate != null && closingDate.isBefore(registrationDate.plusDays(1))) {
             throw new DomainException("Closing date must be at least 1 day after registration date");
         }
         this.closingDate = closingDate;
@@ -86,9 +86,6 @@ public class MedicalRecord {
     }
 
     public void setAnimal(Animal animal) {
-        if (this.animal != null) {
-            throw new DomainException("Medical record is already assigned to an animal");
-        }
         this.animal = animal;
     }
 }
