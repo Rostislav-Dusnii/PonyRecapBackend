@@ -11,7 +11,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
 
 import ucll.be.model.Animal;
+import ucll.be.model.Chicken;
 import ucll.be.model.MedicalRecord;
+import ucll.be.model.Pony;
 import ucll.be.repository.AnimalRepository;
 import ucll.be.repository.DbInitializer;
 
@@ -42,14 +44,16 @@ public class AnimalRepositoryTestImpl implements AnimalRepository{
     }
 
     @Override
-    public List<Animal> findByAgeGreaterThan(int age) {
-        List<Animal> result = animals.stream().filter(a -> a.getAge() > age).toList();
+    public List<Pony> findByAgeGreaterThan(int age) {
+        List<Pony> ponies = animals.stream().filter(animal -> animal.getClass().equals(Pony.class)).map(animal -> (Pony) animal).toList();
+        List<Pony> result = ponies.stream().filter(a -> a.getAge() > age).toList();
         return result;
     }
 
     @Override
-    public Animal findFirstByOrderByAgeDesc() {
-        Animal result = animals.stream().max((a1, a2) -> a1.getAge() - a2.getAge()).orElse(null);
+    public Pony findFirstByOrderByAgeDesc() {
+        List<Pony> ponies = animals.stream().filter(animal -> animal.getClass().equals(Pony.class)).map(animal -> (Pony) animal).toList();
+        Pony result = ponies.stream().max((a1, a2) -> a1.getAge() - a2.getAge()).orElse(null);
         return result;
     }
 
@@ -83,6 +87,24 @@ public class AnimalRepositoryTestImpl implements AnimalRepository{
     @Override
     public boolean existsById(Long id) {
         return animals.stream().anyMatch(a -> a.getId().equals(id));
+    }
+
+    @Override
+    public List<Pony> findAllPonies() {
+        List<Pony> result = animals.stream().filter(animal -> animal.getClass().equals(Pony.class)).map(animal -> (Pony) animal).toList();
+        return result;
+    }
+
+    @Override
+    public List<Chicken> findAllChickens() {
+        List<Chicken> result = animals.stream().filter(animal -> animal.getClass().equals(Chicken.class)).map(animal -> (Chicken) animal).toList();
+        return result;
+    }
+
+    @Override
+    public List<Chicken> findAllChickensThatLayEggs() {
+        List<Chicken> result = animals.stream().filter(animal -> animal.getClass().equals(Chicken.class)).map(animal -> (Chicken) animal).filter(chicken -> chicken.getLaysEggs()).toList();
+        return result;
     }
 
 
@@ -242,5 +264,7 @@ public class AnimalRepositoryTestImpl implements AnimalRepository{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findBy'");
     }
+
+
     
 }

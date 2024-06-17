@@ -14,6 +14,7 @@ import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import ucll.be.model.Animal;
 import ucll.be.model.DomainException;
+import ucll.be.model.Pony;
 import ucll.be.model.Stable;
 import ucll.be.utilits.TimeTracker;
 
@@ -48,7 +49,7 @@ public class AnimalTest {
         int age = 2;
 
         // When
-        Animal animal = new Animal(name, age);
+        Animal animal = new Pony(name, age);
 
         // Then
         Set<ConstraintViolation<Animal>> violations = validator.validate(animal);
@@ -62,7 +63,7 @@ public class AnimalTest {
         int age = 2;
 
         // When
-        Animal animal = new Animal(name, age);
+        Animal animal = new Pony(name, age);
 
         // Then
         Set<ConstraintViolation<Animal>> violations = validator.validate(animal);
@@ -79,7 +80,7 @@ public class AnimalTest {
         int age = -2;
 
         // When
-        Animal animal = new Animal(name, age);
+        Animal animal = new Pony(name, age);
 
         // Then
         Set<ConstraintViolation<Animal>> violations = validator.validate(animal);
@@ -96,7 +97,7 @@ public class AnimalTest {
         int age = 0;
 
         // When
-        Animal animal = new Animal(name, age);
+        Animal animal = new Pony(name, age);
 
         // Then
         Set<ConstraintViolation<Animal>> violations = validator.validate(animal);
@@ -113,7 +114,7 @@ public class AnimalTest {
         int age = 52;
 
         // When
-        Animal animal = new Animal(name, age);
+        Animal animal = new Pony(name, age);
 
         // Then
         Set<ConstraintViolation<Animal>> violations = validator.validate(animal);
@@ -126,7 +127,7 @@ public class AnimalTest {
     @Test
     public void givenAnimalWithoutStable_whenAddingStableToAnimal_thenAnimalHasStable() {
         // Given
-        Animal animal = createDefaultAnimal();
+        Animal animal = createDefaultPony();
         Stable stable = StableTest.createDefaultStable();
 
         // When
@@ -139,7 +140,7 @@ public class AnimalTest {
     @Test
     public void givenAnimalWithStable_whenAddingStableToAnimal_thenDomainExceptionThrown() {
         // Given
-        Animal animal = createDefaultAnimal();
+        Animal animal = createDefaultPony();
         Stable stable = StableTest.createDefaultStable();
         animal.setStable(stable);
         Stable newStable = StableTest.createDefaultStable();
@@ -155,7 +156,9 @@ public class AnimalTest {
         Assertions.assertTrue(actualMessage.contains(expectedMessage));
     }
     
-    public static Animal createDefaultAnimal() {
-        return new Animal(DEFAULT_NAME, DEFAULT_AGE);
+    public static Pony createDefaultPony() {
+        return new Pony(DEFAULT_NAME, DEFAULT_AGE);
     }
+
+
 }

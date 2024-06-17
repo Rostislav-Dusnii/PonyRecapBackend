@@ -25,7 +25,9 @@ CREATE TABLE MY_ANIMALS (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     age INT CHECK (age >= 1 AND age <= 50),
+    lays_eggs BOOLEAN,
     stable_id INT,
+    animal_type VARCHAR(255) NOT NULL, 
     FOREIGN KEY (stable_id) REFERENCES MY_STABLES(id)
 );
 

@@ -75,7 +75,7 @@ public class ToyTest {
     public void givenToyWithoutAnimals_whenAddingAnimal_thenAnimalIsAdded() {
         // Given
         Toy toy = createDefaultToy();
-        Animal animal = AnimalTest.createDefaultAnimal();
+        Animal animal = AnimalTest.createDefaultPony();
 
         // When
         toy.addAnimal(animal);
@@ -88,7 +88,7 @@ public class ToyTest {
     public void givenToyWithAnimal_whenAddingTheSameAnimal_thenDomainExceptionThrown() {
         // Given
         Toy toy = createDefaultToy();
-        Animal animal = AnimalTest.createDefaultAnimal();
+        Animal animal = AnimalTest.createDefaultPony();
         toy.addAnimal(animal);
 
         // When

@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import ucll.be.model.Animal;
+import ucll.be.model.Chicken;
+import ucll.be.model.Pony;
 import ucll.be.model.Stable;
 import ucll.be.service.AnimalService;
 import ucll.be.service.StableService;
@@ -36,9 +38,14 @@ public class AnimalController {
         this.stableService = stableService;
     }
 
-    @PostMapping
-    public Animal addAnimal(@RequestBody Animal entity) {
-        return service.addAnimal(entity);
+    @PostMapping("/pony")
+    public Animal addPony(@RequestBody Pony entity) {
+        return service.addAnimal(entity);// Such type conversion is not good btw
+    }
+
+    @PostMapping("/chicken")
+    public Animal addChicken(@RequestBody Chicken entity) {
+        return service.addAnimal(entity);// Such type conversion is not good btw
     }
 
     @PostMapping("/{animalName}/stable")
@@ -57,8 +64,20 @@ public class AnimalController {
         return service.getAllAnimals();
     }
 
+    @GetMapping("/chicken")
+    public List<Chicken> getAllChickens(
+        @RequestParam(value = "onlyLaysEggs", required = false) Boolean onlyLaysEggs
+    ) {
+        return service.getChickens(onlyLaysEggs);
+    }
+
+    @GetMapping("/pony")
+    public List<Pony> getAllPony() {
+        return service.getPonies();
+    }
+
     @GetMapping("/{age}")
-    public List<Animal> getAnimalsOlderThan(@PathVariable(value = "age") int age) {
+    public List<Pony> getAnimalsOlderThan(@PathVariable(value = "age") int age) {
         return service.getAnimalsOlderThan(age);
     }
 

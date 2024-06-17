@@ -128,8 +128,8 @@ public class StableTest {
     public void givenStableWithMaxNumberOfAnimals_whenAddingAnAnimal_thenDomainExceptionIsThrown() {
         // Given
         Stable stable = createDefaultStable();
-        stable.addAnimal(AnimalTest.createDefaultAnimal());
-        Animal animal = AnimalTest.createDefaultAnimal();
+        stable.addAnimal(AnimalTest.createDefaultPony());
+        Animal animal = AnimalTest.createDefaultPony();
         animal.setName("Another Animal");
 
         // When

@@ -12,6 +12,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import ucll.be.domain.AnimalTest;
 import ucll.be.domain.StableTest;
 import ucll.be.model.Animal;
+import ucll.be.model.Pony;
 import ucll.be.model.Stable;
 import ucll.be.repository.AnimalRepository;
 import ucll.be.repository.DbInitializer;
@@ -44,7 +45,7 @@ public class AnimalIntegrationTest {
 
     @Test
     public void givenAnimal_whenAddAnimal_thenAnimalAdded() {
-        Animal animal = AnimalTest.createDefaultAnimal();
+        Pony animal = AnimalTest.createDefaultPony();
         
         webTestClient.post()
                 .uri("/animals")
@@ -58,7 +59,7 @@ public class AnimalIntegrationTest {
 
     @Test
     public void givenAnimalAndStable_whenAssignAnimalToStable_thenAnimalAssignedToStable() {
-        Animal animal = new Animal("Little", 5);
+        Pony animal = new Pony("Little", 5);
         Stable stable = StableTest.createDefaultStable();
         
         webTestClient.post()
@@ -73,7 +74,7 @@ public class AnimalIntegrationTest {
 
     @Test
     public void givenAnimalAndStableId_whenAssingAnimalToExistingStable_thenAnimalAssignedToStable() {
-        Animal animal = new Animal("Little", 5);
+        Pony animal = new Pony("Little", 5);
         Long stableId = 1L;
         Stable stable = stableRepository.findById(stableId).orElse(null);
 
@@ -101,7 +102,14 @@ public class AnimalIntegrationTest {
     @Test
     public void givenAge_whenGetAnimalsOlderThan_thenAnimalsOlderThanAgeReturned() {
         int age = 3;
-        int expectedSize = animalRepository.findAll().stream().filter(a -> a.getAge() > age).toList().size();
+        int expectedSize = animalRepository
+        .findAll()
+        .stream()
+        .filter(a -> a.getClass().equals(Pony.class))
+        .map(a -> (Pony) a)
+        .filter(a -> a.getAge() > age)
+        .toList()
+        .size();
         
         webTestClient.get()
                 .uri("/animals/{age}", age)
@@ -113,7 +121,13 @@ public class AnimalIntegrationTest {
 
     @Test
     public void givenNoParameters_whenGetOldestAnimal_thenOldestAnimalReturned() {
-        Animal expecteAnimal = animalRepository.findAll().stream().max((a1, a2) -> Integer.compare(a1.getAge(), a2.getAge())).orElse(null);
+        Pony expecteAnimal = animalRepository
+        .findAll()
+        .stream()
+        .filter(a -> a.getClass().equals(Pony.class))
+        .map(a -> (Pony) a)
+        .max((a1, a2) -> Integer.compare(a1.getAge(), a2.getAge()))
+        .orElse(null);
 
         webTestClient.get()
                 .uri("/animals/oldest")

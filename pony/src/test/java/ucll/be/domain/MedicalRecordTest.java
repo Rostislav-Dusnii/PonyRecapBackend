@@ -50,7 +50,7 @@ public class MedicalRecordTest {
         TimeTracker.setCustomToday(DEFAULT_TODAY);
         LocalDate registrationDate = DEFAULT_TODAY;
         String description = DEFAULT_DESCRIPTION;
-        Animal animal = AnimalTest.createDefaultAnimal();
+        Animal animal = AnimalTest.createDefaultPony();
 
         // When
         MedicalRecord medicalRecord = new MedicalRecord(registrationDate, description, animal);
@@ -66,7 +66,7 @@ public class MedicalRecordTest {
         TimeTracker.setCustomToday(DEFAULT_TODAY);
         LocalDate registrationDate = DEFAULT_TODAY;
         String description = "";
-        Animal animal = AnimalTest.createDefaultAnimal();
+        Animal animal = AnimalTest.createDefaultPony();
 
         // When
         MedicalRecord medicalRecord = new MedicalRecord(registrationDate, description, animal);
@@ -82,7 +82,7 @@ public class MedicalRecordTest {
         TimeTracker.setCustomToday(DEFAULT_TODAY);
         LocalDate registrationDate = DEFAULT_TOMORROW;
         String description = DEFAULT_DESCRIPTION;
-        Animal animal = AnimalTest.createDefaultAnimal();
+        Animal animal = AnimalTest.createDefaultPony();
 
         // When
         Exception exception = Assertions.assertThrows(
@@ -102,7 +102,7 @@ public class MedicalRecordTest {
         LocalDate registrationDate = DEFAULT_TODAY;
         LocalDate closingDate = DEFAULT_YESTERDAY;
         String description = DEFAULT_DESCRIPTION;
-        Animal animal = AnimalTest.createDefaultAnimal();
+        Animal animal = AnimalTest.createDefaultPony();
         MedicalRecord medicalRecord = new MedicalRecord(registrationDate, description, animal);
 
         // When
@@ -138,9 +138,9 @@ public class MedicalRecordTest {
         TimeTracker.setCustomToday(DEFAULT_TODAY);
         LocalDate registrationDate = DEFAULT_TODAY;
         String description = DEFAULT_DESCRIPTION;
-        Animal animal = AnimalTest.createDefaultAnimal();
+        Animal animal = AnimalTest.createDefaultPony();
         MedicalRecord medicalRecord = new MedicalRecord(registrationDate, description, animal);
-        Animal newAnimal = AnimalTest.createDefaultAnimal();
+        Animal newAnimal = AnimalTest.createDefaultPony();
 
         // When
         medicalRecord.setAnimal(newAnimal);
@@ -150,6 +150,6 @@ public class MedicalRecordTest {
     }
 
     public static MedicalRecord createDefaultMedicalRecord() {
-        return new MedicalRecord(DEFAULT_TODAY, DEFAULT_DESCRIPTION, AnimalTest.createDefaultAnimal());
+        return new MedicalRecord(DEFAULT_TODAY, DEFAULT_DESCRIPTION, AnimalTest.createDefaultPony());
     }
 }

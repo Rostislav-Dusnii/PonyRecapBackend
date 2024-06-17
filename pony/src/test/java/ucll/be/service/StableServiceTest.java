@@ -158,7 +158,7 @@ public class StableServiceTest {
         String animalName = AnimalTest.DEFAULT_NAME;
         Stable stable = StableTest.createDefaultStable();
 
-        Animal expectedAnimal = AnimalTest.createDefaultAnimal();
+        Animal expectedAnimal = AnimalTest.createDefaultPony();
         when(animalService.getAnimalByName(animalName)).thenReturn(expectedAnimal);
 
         Stable expectedUpdatedStable = StableTest.createDefaultStable();
@@ -179,7 +179,7 @@ public class StableServiceTest {
         // Given
         String animalName = AnimalTest.DEFAULT_NAME;
         Long stableId = 1L;
-        Animal expectedAnimal = AnimalTest.createDefaultAnimal();
+        Animal expectedAnimal = AnimalTest.createDefaultPony();
         when(animalService.getAnimalByName(animalName)).thenReturn(expectedAnimal);
 
         Stable expectedStable = StableTest.createDefaultStable();
@@ -202,7 +202,7 @@ public class StableServiceTest {
         // Given
         String animalName = AnimalTest.DEFAULT_NAME;
 
-        Animal expectedAnimal = AnimalTest.createDefaultAnimal();
+        Animal expectedAnimal = AnimalTest.createDefaultPony();
         Stable expectedStable = StableTest.createDefaultStable();
         expectedAnimal.setStable(expectedStable);
         when(animalService.getAnimalByName(animalName)).thenReturn(expectedAnimal);

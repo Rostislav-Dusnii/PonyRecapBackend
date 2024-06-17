@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import ucll.be.model.Animal;
+import ucll.be.model.Chicken;
+import ucll.be.model.Pony;
 import ucll.be.repository.AnimalRepository;
 
 @Service
@@ -48,7 +50,18 @@ public class AnimalService {
         return animalRepository.findAll();
     }
 
-    public List<Animal> getAnimalsOlderThan(int age) {
+    public List<Pony> getPonies() {
+        return animalRepository.findAllPonies();
+    }
+
+    public List<Chicken> getChickens(Boolean onlyLaysEggs) {
+        if (onlyLaysEggs == null || !onlyLaysEggs) {
+            return animalRepository.findAllChickens();
+        }
+        return animalRepository.findAllChickensThatLayEggs();
+    }
+
+    public List<Pony> getAnimalsOlderThan(int age) {
         return animalRepository.findByAgeGreaterThan(age);
     }
 

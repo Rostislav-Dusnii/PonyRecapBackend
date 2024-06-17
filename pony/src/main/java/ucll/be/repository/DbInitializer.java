@@ -9,7 +9,9 @@ import org.springframework.stereotype.Component;
 import jakarta.annotation.PostConstruct;
 import ucll.be.model.Address;
 import ucll.be.model.Animal;
+import ucll.be.model.Chicken;
 import ucll.be.model.MedicalRecord;
+import ucll.be.model.Pony;
 import ucll.be.model.Stable;
 import ucll.be.model.Toy;
 import ucll.be.utilits.TimeTracker;
@@ -50,12 +52,14 @@ public class DbInitializer {
 
     public static List<Animal> createAnimals() {
         List<Animal> animals = new ArrayList<>();
-        Animal animal1 = new Animal("Bella", 20);
-        Animal animal2 = new Animal("Luna", 10);
-        Animal animal3 = new Animal("Muriel", 2);
-        Animal animal4 = new Animal("Little", 1);
+        Animal animal1 = new Pony("Bella", 20);
+        Animal animal2 = new Pony("Luna", 10);
+
         animals.add(animal1);
         animals.add(animal2);
+
+        Animal animal3 = new Chicken("Muriel", true);
+        Animal animal4 = new Chicken("Little", false);
         animals.add(animal3);
         animals.add(animal4);
         return animals;
